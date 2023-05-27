@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_list_provider/app/core/widgets/todo_list_Field.dart';
 import 'package:todo_list_provider/app/core/widgets/todo_list_logo.dart';
 import 'package:todo_list_provider/app/modules/auth/login/login_controller.dart';
+import 'package:todo_list_provider/app/utils/todo_routes.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -27,13 +29,19 @@ class LoginPage extends StatelessWidget {
                     TodoListLogo(),
                     const SizedBox(height: 20),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 20, horizontal: 40),
                       child: Form(
                         child: Column(
                           children: [
-                            TextFormField(),
+                            TodoListField(
+                              label: 'E-mail',
+                            ),
                             const SizedBox(height: 20),
-                            TextFormField(),
+                            TodoListField(
+                              label: 'Senha',
+                              obscureText: true,
+                            ),
                             const SizedBox(height: 20),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -91,9 +99,12 @@ class LoginPage extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text('Não tem conta?'),
+                                const Text('Não tem conta?'),
                                 TextButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.of(context)
+                                          .pushNamed(TodoRoutes.REGISTER);
+                                    },
                                     child: const Text('Cadastre-se'))
                               ],
                             )
