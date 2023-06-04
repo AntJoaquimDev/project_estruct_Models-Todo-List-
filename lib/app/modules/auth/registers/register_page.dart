@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list_provider/app/core/ui/theme_extension.dart';
+import 'package:todo_list_provider/app/core/widgets/bottun_clip_oval.dart';
 import 'package:todo_list_provider/app/core/widgets/todo_list_Field.dart';
 import 'package:todo_list_provider/app/core/widgets/todo_list_logo.dart';
 
@@ -27,18 +28,7 @@ class RegisterPage extends StatelessWidget {
                     fontWeight: FontWeight.bold)),
           ],
         ),
-        leading: ClipOval(
-          child: Container(
-            color: context.primaryColor.withAlpha(20),
-            padding: const EdgeInsets.all(8),
-            child: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(Icons.arrow_back_ios_outlined),
-            ),
-          ),
-        ),
+        leading: BottunClipOval(),
       ),
       body: ListView(children: [
         Container(
@@ -66,16 +56,16 @@ class RegisterPage extends StatelessWidget {
                   obscureText: true,
                 ),
                 const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Text('Cadastar'),
-                  ),
-                  style: TextButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: TextButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
                     ),
+                    child: const Text('Cadastar'),
                   ),
                 ),
               ],

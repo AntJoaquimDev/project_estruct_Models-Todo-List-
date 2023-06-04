@@ -55,15 +55,12 @@ class LoginPage extends StatelessWidget {
                                 ),
                                 ElevatedButton(
                                   onPressed: () {},
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: Text('Entrar'),
-                                  ),
                                   style: TextButton.styleFrom(
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(16),
                                     ),
                                   ),
+                                  child: const Text('Entrar'),
                                 ),
                               ],
                             ),
