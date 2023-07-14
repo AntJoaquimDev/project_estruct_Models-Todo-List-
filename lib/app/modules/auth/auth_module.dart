@@ -1,3 +1,4 @@
+import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_list_provider/app/core/modules/todo_list_modules.dart';
 import 'package:todo_list_provider/app/modules/auth/login/login_controller.dart';
@@ -12,18 +13,19 @@ class AuthModule extends TodoListModules {
       : super(
           bindings: [
             ChangeNotifierProvider(
-              create: (_) => LoginController(),
+              create: (context) => LoginController(userService: context.read()),
               lazy: false,
             ),
             ChangeNotifierProvider(
-              create: (_) => RegisterController(),
+              create: (context) =>
+                  RegisterController(userService: context.read()),
               lazy: false,
             )
           ],
           routers: {
             //'/': (context) => const SplashPage(),
             TodoRoutes.LOGIN: (context) => const LoginPage(),
-            TodoRoutes.REGISTER: (context) => const RegisterPage(),
+            TodoRoutes.REGISTER: (context) => RegisterPage(),
           },
         );
 }
