@@ -32,9 +32,3 @@ class AppModule extends StatelessWidget {
     );
   }
 }
-/* {
-      "name": "flutter",
-      "rootUri": "file:///C:/Users/55869/fvm/versions/3.3.10/packages/flutter",
-      "packageUri": "lib/",
-      "languageVersion": "2.17"
-    }, */
