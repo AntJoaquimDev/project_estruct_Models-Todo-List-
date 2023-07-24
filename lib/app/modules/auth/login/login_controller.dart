@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:todo_list_provider/app/core/notifier/default_change_notifier.dart';
 import 'package:todo_list_provider/app/exception/auth_exception.dart';
 import 'package:todo_list_provider/app/services/user/user_service.dart';
@@ -20,15 +19,19 @@ class LoginController extends DefaultChangeNotifier {
       if (user != null) {
         success();
       } else {
+        _userService.googleLogout();
         setError(' Erro ao realizar login com o Google');
       }
     } on AuthException catch (e) {
+      _userService.googleLogout();
       setError(e.message);
     } finally {
       hideLoanding();
       notifyListeners();
     }
   }
+
+  Future<void> googleLogout() async {}
 
   Future<void> login(String email, String password) async {
     try {
