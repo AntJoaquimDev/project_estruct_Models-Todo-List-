@@ -100,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                                     } else {
                                       _emailFocus.requestFocus();
                                       Messages.of(context).showError(
-                                          'Digite um e-mail valido para recuera a senha.');
+                                          'Digite um e-mail valido para recupera a senha.');
                                     }
                                   },
                                   child: const Text('Esqueceu sua senha?'),
@@ -157,7 +157,9 @@ class _LoginPageState extends State<LoginPage> {
                                 borderRadius: BorderRadius.circular(25),
                                 borderSide: BorderSide.none,
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                contex.read<LoginController>().googleLogin();
+                              },
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
