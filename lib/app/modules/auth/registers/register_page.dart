@@ -25,6 +25,14 @@ class _RegisterPageState extends State<RegisterPage> {
   final _confirmPasswordEC = TextEditingController();
 
   @override
+  void dispose() {
+    _emaiEC.dispose();
+    _passwordEC.dispose();
+    _confirmPasswordEC.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
     final defaultListener = DefaultListenerNotifier(

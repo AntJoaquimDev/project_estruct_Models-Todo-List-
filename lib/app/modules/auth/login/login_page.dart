@@ -120,6 +120,8 @@ class _LoginPageState extends State<LoginPage> {
                                           .read<LoginController>()
                                           .login(email, password);
                                     }
+                                    Navigator.of(context)
+                                        .pushNamed(TodoRoutes.HOME);
                                   },
                                   style: TextButton.styleFrom(
                                     shape: RoundedRectangleBorder(

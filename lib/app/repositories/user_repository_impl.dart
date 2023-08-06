@@ -47,6 +47,9 @@ class UserRepositoryImpl implements UserRepository {
       if (e.code == 'wrong-password') {
         throw AuthException(message: 'Login ou senha inválidos');
       }
+      if (e.code == 'invalid-email') {
+        throw AuthException(message: 'Loigin ou senha inválidos');
+      }
       throw AuthException(message: e.message ?? 'Erro ao realizar login');
     }
   }
@@ -75,14 +78,16 @@ class UserRepositoryImpl implements UserRepository {
   Future<User?> googleLogin() async {
     List<String>? loginMethods;
     try {
-      final googleUser = await GoogleSignIn().signIn();
+      final googleSignIn = GoogleSignIn();
+      final googleUser = await googleSignIn.signIn();
       if (googleUser != null) {
         loginMethods =
             await _firebaseAuth.fetchSignInMethodsForEmail(googleUser.email);
+
         if (loginMethods.contains('password')) {
           throw AuthException(
               message:
-                  'Você utilizou o e-mail para cadastro no TodoList, casa tenga esquecido sua senha click no link abaixo "Esqueci minha senha"');
+                  'Você utilizou o e-mail para cadastro no TodoList, caso tenha esquecido sua senha por favor clique no link esqueci minha senha');
         } else {
           final googleAuth = await googleUser.authentication;
           final firebaseCredencial = GoogleAuthProvider.credential(
@@ -92,15 +97,13 @@ class UserRepositoryImpl implements UserRepository {
           return userCredencial.user;
         }
       }
-    } on FirebaseAuthException catch (e, s) {
-      print('print E= ${e.code}');
+    } on FirebaseException catch (e, s) {
       print(e);
       print(s);
       if (e.code == 'account-exists-with-different-credential') {
-        throw AuthException(message: '''
-        Login inválido  você se registrou no App Todo List com os provedores:
-       ${loginMethods?.join(',')}
-        '''); //
+        throw AuthException(
+            message:
+                'Login inválido voce se registrou no TodoList com os seguintes provedores: ${loginMethods?.join(',')}');
       } else {
         throw AuthException(message: 'Erro ao realizar login');
       }
@@ -108,7 +111,7 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<void> googleLogout() async {
+  Future<void> logout() async {
     await GoogleSignIn().signOut();
     _firebaseAuth.signOut();
   }

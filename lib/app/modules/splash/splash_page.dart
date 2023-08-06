@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_list_provider/app/core/auth/auth_porvider.dart';
+import 'package:todo_list_provider/app/core/widgets/todo_list_logo.dart';
 import 'package:todo_list_provider/app/utils/todo_routes.dart';
 
 class SplashPage extends StatelessWidget {
@@ -7,16 +10,19 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Spasg Page'),
+        body: Center(
+      child: Column(
+        children: [
+          TodoListLogo(),
+          Center(
+            child: TextButton(
+                onPressed: () {
+                  context.read<AuthPorvider>().logout();
+                },
+                child: const Text('Logout')),
+          ),
+        ],
       ),
-      body: Center(
-        child: TextButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed(TodoRoutes.LOGIN);
-            },
-            child: Text('/P/login')),
-      ),
-    );
+    ));
   }
 }
