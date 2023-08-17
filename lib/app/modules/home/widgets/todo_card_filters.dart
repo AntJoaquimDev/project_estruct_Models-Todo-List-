@@ -5,14 +5,14 @@ import 'package:todo_list_provider/app/models/total_tasks_model.dart';
 
 class TodoCardFilter extends StatelessWidget {
   final String label;
-  final TaskFilterEnum taslFilter;
+  final TaskFilterEnum taskFilter;
   final TotalTasksModel? totalTasksModel;
   final bool selected;
 
   const TodoCardFilter({
     super.key,
     required this.label,
-    required this.taslFilter,
+    required this.taskFilter,
     this.totalTasksModel,
     required this.selected,
   });

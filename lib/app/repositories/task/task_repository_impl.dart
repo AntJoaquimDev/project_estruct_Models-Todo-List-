@@ -13,7 +13,7 @@ class TaskRepositoryImpl implements TaskRepository {
     final conn = await _sqliteConectorFactory.openConection();
     await conn.insert('todo', {
       'id': null,
-      'description': description,
+      'descricao': description,
       'data_hora': date.toIso8601String(),
       'finalizado': 0,
     });
@@ -28,7 +28,7 @@ class TaskRepositoryImpl implements TaskRepository {
     select *
       from todo
       where data_hora between ? and ? 
-      oder by data_hora
+      order by data_hora
       
 ''', [
       startFilter.toIso8601String(),

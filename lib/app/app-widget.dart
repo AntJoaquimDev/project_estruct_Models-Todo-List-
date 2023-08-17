@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:todo_list_provider/app/core/databse/sqlite_adm_conection.dart';
 import 'package:todo_list_provider/app/core/navigator/todo_list_navigator.dart';
 import 'package:todo_list_provider/app/core/ui/todo_list_theme_config.dart';
@@ -40,6 +41,15 @@ class _AppWidgetState extends State<AppWidget> {
       theme: TodoListThemeConfig.theme,
       navigatorKey: TodoListNavigator.navigatorKey,
       //initialRoute: TodoRoutes.LOGIN,
+
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        // Locale('en', 'US'),
+        Locale('pt', 'BR'),
+      ],
       routes: {
         ...AuthModule().routrs,
         ...HomeModule().routrs,

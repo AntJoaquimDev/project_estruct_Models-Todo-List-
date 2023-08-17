@@ -3,6 +3,7 @@ import 'package:todo_list_provider/app/core/ui/style/colors_app.dart';
 import 'package:todo_list_provider/app/core/ui/theme_extension.dart';
 import 'package:todo_list_provider/app/core/ui/todo_list_icons.dart';
 import 'package:todo_list_provider/app/core/widgets/home_drawer.dart';
+import 'package:todo_list_provider/app/modules/home/widgets/home_controller.dart';
 import 'package:todo_list_provider/app/modules/home/widgets/home_task.dart';
 import 'package:todo_list_provider/app/modules/home/widgets/home_week_filter.dart';
 import 'package:todo_list_provider/app/modules/tasks/task_module.dart';
@@ -11,8 +12,21 @@ import 'package:todo_list_provider/app/utils/todo_routes.dart';
 import 'home_filters.dart';
 import 'home_header.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class HomePage extends StatefulWidget {
+  final HomeController _homeController;
+  HomePage({required HomeController homeController, super.key})
+      : _homeController = homeController;
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    //widget._homeController.loadTotalTasks();
+  }
 
   void _goToCreateTask(BuildContext context) {
     //Navigator.of(context).pushNamed(TodoRoutes.TASK);
@@ -52,7 +66,7 @@ class HomePage extends StatelessWidget {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
+          child: const Icon(Icons.add),
           onPressed: () => _goToCreateTask(context),
           backgroundColor: context.primaryColor,
         ),

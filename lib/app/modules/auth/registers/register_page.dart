@@ -41,26 +41,26 @@ class _RegisterPageState extends State<RegisterPage> {
       context: context,
       successVoidCalback: (notifier, listenerInstace) {
         listenerInstace.dispose();
-        Navigator.of(context).pop();
+        //Navigator.of(context).pop();
       },
       erroVoidCalback: (notifier, listenerInstace) => print('deu ruim'),
     );
 
-    // context.read<RegisterController>().addListener(() {
-    //   final controller = context.read<RegisterController>();
-    //   var success = controller.success;
-    //   var error = controller.error;
-    //   if (success==true) {
-    //     Navigator.of(context).pop();
-    //   } else if (error != null && error.isNotEmpty) {
-    //     ScaffoldMessenger.of(context).showSnackBar(
-    //       SnackBar(
-    //         content: Text(error),
-    //         backgroundColor: Colors.red,
-    //       ),
-    //     );
-    //   }
-    // });
+    context.read<RegisterController>().addListener(() {
+      final controller = context.read<RegisterController>();
+      var success = controller.success;
+      var error = controller.error;
+      if (success == true) {
+        Navigator.of(context).pop();
+      } else if (error != null && error.isNotEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(error),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    });
   }
 
   @override

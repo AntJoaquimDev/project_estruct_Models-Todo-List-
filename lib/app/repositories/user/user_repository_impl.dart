@@ -103,7 +103,8 @@ class UserRepositoryImpl implements UserRepository {
       if (e.code == 'account-exists-with-different-credential') {
         throw AuthException(
             message:
-                'Login inválido voce se registrou no TodoList com os seguintes provedores: ${loginMethods?.join(',')}');
+                '''Login inválido voce se registrou no TodoList com os seguintes provedores: 
+                ${loginMethods?.join(',')}''');
       } else {
         throw AuthException(message: 'Erro ao realizar login');
       }

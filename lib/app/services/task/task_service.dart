@@ -5,5 +5,5 @@ abstract class TaskService {
   Future<void> save(DateTime date, String description);
   Future<List<TaskModel>> getToday();
   Future<List<TaskModel>> getTomorrow();
-  Future<List<WeekTaskModel>> getToWeek();
+  Future<WeekTaskModel> getWeek();
 }
