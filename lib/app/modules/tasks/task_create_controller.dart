@@ -24,10 +24,13 @@ class TaskCreateController extends DefaultChangeNotifier {
       if (_selectedDate != null) {
         await _taskService.save(_selectedDate!, description);
         success();
+        print(description);
       } else {
         setError('Data da Task não Selecionada.');
       }
-    } catch (e) {
+    } catch (e, s) {
+      print(e);
+      print(s);
       setError('Erro ao crear Uma Tarefa');
     } finally {
       hideLoanding();

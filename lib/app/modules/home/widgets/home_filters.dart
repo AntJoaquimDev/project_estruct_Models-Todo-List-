@@ -35,27 +35,26 @@ class HomeFilters extends StatelessWidget {
                         (value) => value.filterSelected) ==
                     TaskFilterEnum.today,
               ),
-              // TodoCardFilter(
-              //   label: 'Amanhã',
-              //   taskFilter: TaskFilterEnum.tomorrow,
-              //   totalTasksModel:
-              //       // TotalTasksModel(totalTask: 10, totalTaskFinish: 5),
-              //       context.select<HomeController, TotalTasksModel?>(
-              //           (controller) => controller.tomorrowTotaTasks),
-              //   selected: context.select<HomeController, TaskFilterEnum>(
-              //           (value) => value.filterSelected) ==
-              //       TaskFilterEnum.tomorrow,
-              // ),
-              // TodoCardFilter(
-              //   label: 'Semana',
-              //   taskFilter: TaskFilterEnum.week,
-              //   totalTasksModel:
-              //       context.select<HomeController, TotalTasksModel?>(
-              //           (controller) => controller.weekTotaTasks),
-              //   selected: context.select<HomeController, TaskFilterEnum>(
-              //           (value) => value.filterSelected) ==
-              //       TaskFilterEnum.week,
-              // ),
+              TodoCardFilter(
+                label: 'Amanhã',
+                taskFilter: TaskFilterEnum.tomorrow,
+                totalTasksModel:
+                    context.select<HomeController, TotalTasksModel?>(
+                        (controller) => controller.tomorrowTotaTasks),
+                selected: context.select<HomeController, TaskFilterEnum>(
+                        (value) => value.filterSelected) ==
+                    TaskFilterEnum.tomorrow,
+              ),
+              TodoCardFilter(
+                label: 'Semana',
+                taskFilter: TaskFilterEnum.week,
+                totalTasksModel:
+                    context.select<HomeController, TotalTasksModel?>(
+                        (controller) => controller.weekTotaTasks),
+                selected: context.select<HomeController, TaskFilterEnum>(
+                        (value) => value.filterSelected) ==
+                    TaskFilterEnum.week,
+              ),
             ],
           ),
         )

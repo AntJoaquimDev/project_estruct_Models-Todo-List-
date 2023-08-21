@@ -60,7 +60,7 @@ class _TaskCreatePageState extends State<TaskCreatePage> {
                 color: Colors.black,
               ))
         ],
-        title: const Text('Task'),
+        // title: const Text('Task'),
       ),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: context.primaryColor,
@@ -78,7 +78,7 @@ class _TaskCreatePageState extends State<TaskCreatePage> {
       body: Form(
         key: _formKey,
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 30),
+          margin: const EdgeInsets.symmetric(horizontal: 30),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,

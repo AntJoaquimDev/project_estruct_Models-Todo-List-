@@ -47,6 +47,7 @@ dependencies:
   google_sign_in: ^6.1.4
   date_picker_timeline: ^1.2.5
   intl: ^0.18.0
+  flutter_native_splash: ^2.3.2
   
 
 dev_dependencies:

@@ -40,7 +40,7 @@ class _AppWidgetState extends State<AppWidget> {
       title: 'Todo List Provider',
       theme: TodoListThemeConfig.theme,
       navigatorKey: TodoListNavigator.navigatorKey,
-      //initialRoute: TodoRoutes.LOGIN,
+      // initialRoute: TodoRoutes.LOGIN,
 
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,

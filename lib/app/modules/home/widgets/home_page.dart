@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list_provider/app/core/notifier/default_listener_notifier.dart';
 import 'package:todo_list_provider/app/core/ui/style/colors_app.dart';
 import 'package:todo_list_provider/app/core/ui/theme_extension.dart';
 import 'package:todo_list_provider/app/core/ui/todo_list_icons.dart';
 import 'package:todo_list_provider/app/core/widgets/home_drawer.dart';
+import 'package:todo_list_provider/app/models/task_filter_enum.dart';
 import 'package:todo_list_provider/app/modules/home/widgets/home_controller.dart';
 import 'package:todo_list_provider/app/modules/home/widgets/home_task.dart';
 import 'package:todo_list_provider/app/modules/home/widgets/home_week_filter.dart';
@@ -25,14 +27,20 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    //widget._homeController.loadTotalTasks();
+    DefaultListenerNotifier(changeNotifier: widget._homeController).Listener(
+      context: context,
+      successVoidCalback: (notifier, listenerInstance) {
+        listenerInstance.dispose();
+      },
+    );
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      widget._homeController.loadTotalTasks();
+      widget._homeController.findTasks(filter: TaskFilterEnum.today);
+    });
   }
 
-  void _goToCreateTask(BuildContext context) {
-    //Navigator.of(context).pushNamed(TodoRoutes.TASK);
-    // Navigator.of(context).push(MaterialPageRoute(
-    //  builder: (_) => TaskModule().getPage(TodoRoutes.TASK, context)));
-    Navigator.of(context).push(PageRouteBuilder(
+  Future<void> _goToCreateTask(BuildContext context) async {
+    await Navigator.of(context).push(PageRouteBuilder(
         transitionDuration: Duration(milliseconds: 450),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           animation =
@@ -46,10 +54,12 @@ class _HomePageState extends State<HomePage> {
         pageBuilder: (context, animation, secondaryAnimation) {
           return TaskModule().getPage(TodoRoutes.TASK, context);
         }));
+    widget._homeController.refreshPage();
   }
 
   @override
   Widget build(BuildContext context) {
+    // Widget showController = widget._homeController.showOrHIderFinishingTaskd();
     return Scaffold(
         appBar: AppBar(
           iconTheme: IconThemeData(color: ColorsApp.inst.primary),
@@ -58,9 +68,16 @@ class _HomePageState extends State<HomePage> {
           title: const Text('Home-Page'),
           actions: [
             PopupMenuButton(
+              onSelected: (value) {
+                widget._homeController.showOrHIderFinishingTaskd();
+              },
               icon: const Icon(TodoListIcons.filter),
               itemBuilder: (_) => [
-                const PopupMenuItem<bool>(child: Text('Mostrar Tarefas')),
+                PopupMenuItem<bool>(
+                  value: true,
+                  child: Text(
+                      '${widget._homeController.showFinishingTasks ? 'Esconder' : 'Mostrar'} Tarefas concluidas.'),
+                ),
               ],
             )
           ],

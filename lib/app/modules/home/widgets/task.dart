@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_list_provider/app/models/task_model.dart';
+import 'package:todo_list_provider/app/modules/home/widgets/home_controller.dart';
 
 class Task extends StatelessWidget {
-  const Task({super.key});
+  final TaskModel taskModel;
+  final dateFormat = DateFormat('dd/MM/y');
+  Task({super.key, required this.taskModel});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 243, 212, 212),
+          color: taskModel.finish
+              ? Color.fromARGB(255, 112, 228, 212)
+              : const Color.fromARGB(255, 243, 212, 212),
           borderRadius: BorderRadius.circular(20),
           boxShadow: const [
             BoxShadow(color: Color.fromARGB(181, 158, 158, 158)),
@@ -17,18 +25,23 @@ class Task extends StatelessWidget {
         child: ListTile(
           contentPadding: const EdgeInsets.all(8),
           leading: Checkbox(
-            value: true,
-            onChanged: (value) {},
+            value: taskModel.finish,
+            onChanged: (value) =>
+                context.read<HomeController>().isCheckOrUnCheck(taskModel),
           ),
-          title: const Text(
-            'Descricao da Task',
+          title: Text(
+            taskModel.description,
             style: TextStyle(
-                decoration: false ? TextDecoration.lineThrough : null),
+                fontWeight: FontWeight.bold,
+                decoration:
+                    taskModel.finish ? TextDecoration.lineThrough : null),
           ),
-          subtitle: const Text(
-            '03/08/2023',
+          subtitle: Text(
+            dateFormat.format(taskModel.dateTime),
             style: TextStyle(
-                decoration: false ? TextDecoration.lineThrough : null),
+                fontWeight: FontWeight.bold,
+                decoration:
+                    taskModel.finish ? TextDecoration.lineThrough : null),
           ),
           shape: RoundedRectangleBorder(
             side: const BorderSide(width: 1),

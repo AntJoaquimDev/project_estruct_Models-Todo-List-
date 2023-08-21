@@ -16,6 +16,12 @@ class HomeController extends DefaultChangeNotifier {
   TotalTasksModel? tomorrowTotaTasks;
   TotalTasksModel? weekTotaTasks;
 
+  List<TaskModel> allTasks = [];
+  List<TaskModel> filteredTasks = [];
+  DateTime? initialDateOfWeek;
+  DateTime? selectDay;
+  bool showFinishingTasks = false;
+
   HomeController({required TaskService TaskService})
       : _taskService = TaskService;
   var filterSelected = TaskFilterEnum.today;
@@ -32,16 +38,84 @@ class HomeController extends DefaultChangeNotifier {
     final weekTask = allTasks[2] as WeekTaskModel;
 
     todayTotaTasks = TotalTasksModel(
-        totalTask: tomorrowTask.length,
+        totalTask: todayTask.length,
         totalTaskFinish: tomorrowTask.where((task) => task.finish).length);
 
     tomorrowTotaTasks = TotalTasksModel(
-        totalTask: todayTask.length,
+        totalTask: tomorrowTask.length,
         totalTaskFinish: todayTask.where((task) => task.finish).length);
 
     weekTotaTasks = TotalTasksModel(
         totalTask: weekTask.tasks.length,
         totalTaskFinish: weekTask.tasks.where((task) => task.finish).length);
     notifyListeners();
+  }
+
+  Future<void> findTasks({required TaskFilterEnum filter}) async {
+    showLoanding();
+    filterSelected = filter;
+    notifyListeners();
+    List<TaskModel> tasks;
+
+    switch (filter) {
+      case TaskFilterEnum.today:
+        tasks = await _taskService.getToday();
+        break;
+      case TaskFilterEnum.tomorrow:
+        tasks = await _taskService.getTomorrow();
+        break;
+      case TaskFilterEnum.week:
+        final weekModel = await _taskService.getWeek();
+        tasks = weekModel.tasks;
+        initialDateOfWeek = weekModel.startDate;
+        break;
+    }
+    filteredTasks = tasks;
+    allTasks = tasks;
+
+    if (filter == TaskFilterEnum.week) {
+      if (selectDay != null) {
+        filterByDay(selectDay!);
+      } else if (initialDateOfWeek != null) {
+        filterByDay(initialDateOfWeek!);
+      }
+    } else {
+      selectDay == null;
+    }
+    if (!showFinishingTasks) {
+      filteredTasks = filteredTasks.where((task) => !task.finish).toList();
+    }
+
+    hideLoanding();
+    notifyListeners();
+  }
+
+  void refreshPage() async {
+    await findTasks(filter: filterSelected);
+    await loadTotalTasks();
+    notifyListeners();
+  }
+
+  void filterByDay(DateTime date) {
+    selectDay == date;
+    filteredTasks = allTasks.where((task) => task.dateTime == date).toList();
+    notifyListeners();
+  }
+
+  Future<void> isCheckOrUnCheck(TaskModel task) async {
+    showLoadingAndRessetState();
+    notifyListeners();
+    final taskUpdate = task.copyWith(
+      finish: !task.finish,
+    );
+    await _taskService.checkOrCheckTask(taskUpdate);
+    hideLoanding();
+    refreshPage();
+  }
+
+  void showOrHIderFinishingTaskd() {
+    showFinishingTasks = !showFinishingTasks;
+    notifyListeners();
+    refreshPage();
   }
 }

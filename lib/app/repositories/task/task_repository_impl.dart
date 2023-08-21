@@ -34,6 +34,16 @@ class TaskRepositoryImpl implements TaskRepository {
       startFilter.toIso8601String(),
       endFilter.toIso8601String(),
     ]);
-    return result.map((task) => TaskModel.loadFromDb(task)).toList();
+    var rest = result.map((task) => TaskModel.loadFromDb(task)).toList();
+
+    return rest;
+  }
+
+  @override
+  Future<void> checkOrCheckTask(TaskModel task) async {
+    final conn = await _sqliteConectorFactory.openConection();
+    final finished = task.finish ? 1 : 0;
+    const String sql = ' update todo set finalizado = ? where id = ?';
+    await conn.rawUpdate(sql, [finished, task.id]);
   }
 }

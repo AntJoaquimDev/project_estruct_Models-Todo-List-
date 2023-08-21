@@ -22,7 +22,7 @@ class TaskServiceImpl implements TaskService {
 
   @override
   Future<List<TaskModel>> getTomorrow() {
-    var tomorrowDate = DateTime.now().add(Duration(days: 1));
+    var tomorrowDate = DateTime.now().add(const Duration(days: 1));
     return _taskRepository.findByPeriod(tomorrowDate, tomorrowDate);
   }
 
@@ -45,4 +45,8 @@ class TaskServiceImpl implements TaskService {
       tasks: tasks,
     );
   }
+
+  @override
+  Future<void> checkOrCheckTask(TaskModel task) =>
+      _taskRepository.checkOrCheckTask(task);
 }
